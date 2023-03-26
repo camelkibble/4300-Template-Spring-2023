@@ -9,6 +9,42 @@ CREATE TABLE episodes(
     descr varchar(1024)
 );
 
+-- CREATE TABLE restaurants(
+--     business_id varchar(64),
+--     name varchar(64),
+--     address varchar(64),
+--     city varchar(64),
+--     state varchar(64),
+--     postal_code varchar(64),
+--     latitude varchar(64),
+--     longitude varchar(64),
+--     stars varchar(64),
+--     review_count varchar(64),
+--     is_open varchar(64),
+--     attributes varchar(64),
+--     categories varchar(64),
+--     hours varchar(64)
+-- );
+
+-- LOAD DATA LOCAL infile 'data/yelp_academic_dataset_restaurants.csv' into table restaurants
+-- fields terminated by ','
+-- enclosed by '"' 
+-- lines terminated by '\n'
+-- ('business_id','name','address','city','state','postal_code','latitude','longitude','stars','review_count','is_open','attributes','categories','hours')
+
+
+
+
+LOAD DATA LOCAL INFILE 'data/yelp_academic_dataset_restaurants.csv' INTO TABLE restaurants
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(business_id, name, address, city, state, postal_code, latitude, longitude, stars, review_count, is_open, attributes, categories, hours)
+
+
+
+
 INSERT INTO episodes VALUE(1,'I''m Watching You','Bruce and Kris Jenner celebrate their anniversary. Kim and Tommy Davis buy themselves a stripper pole as a gift, and the youngest Jenner plays on it. Kim appears on The Tyra Banks Show Where she is interviewed about Kim''s sex tape. Kourtney deals with relationship drama.');
 INSERT INTO episodes VALUE(2,'Managing Mom','Kim and Kris, her manager, argue over the management of Kim''s appearances and schedule. Meanwhile, Kris hires a nanny, Bree, who is not as appropriate and nanny-decent as she hoped.');
 INSERT INTO episodes VALUE(3,'Brody in the House','Kourtney, Kim and Khloé go to Mexico for a Girls Gone Wild photo shoot without telling Bruce, afraid that he would disapprove. When he finds out, he leaves his son Brody Jenner to look after Kylie and Kendall while he heads to Mexico to confront them. Unfortunately, leaving Brody with his daughters creates even more chaos.');
