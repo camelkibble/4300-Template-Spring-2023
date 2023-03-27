@@ -55,4 +55,4 @@ def random():
     random_restaurant = give_random_restaurant(restaurants)
     return render_template('random.html', restaurant=random_restaurant)
 
-app.run(debug=True)
+# app.run(debug=True)
