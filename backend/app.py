@@ -14,7 +14,7 @@ os.environ['ROOT_PATH'] = os.path.abspath(os.path.join("..",os.curdir))
 MYSQL_USER = "root"
 MYSQL_USER_PASSWORD = ""
 MYSQL_PORT = 3306
-MYSQL_DATABASE = "kardashiandb"
+MYSQL_DATABASE = "CityFood"
 
 mysql_engine = MySQLDatabaseHandler(MYSQL_USER,MYSQL_USER_PASSWORD,MYSQL_PORT,MYSQL_DATABASE)
 
@@ -46,4 +46,13 @@ def episodes_search():
 def main():
     return render_template('main.html')
 
-# app.run(debug=True)
+def give_random_restaurant(restaurants):
+    return restaurants[0]
+
+@app.route('/random')
+def random():
+    restaurants = mysql_engine.query_selector("SELECT * FROM restaurants")
+    random_restaurant = give_random_restaurant(restaurants)
+    return render_template('random.html', restaurant=random_restaurant)
+
+app.run(debug=True)
