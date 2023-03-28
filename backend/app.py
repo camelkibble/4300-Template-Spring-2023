@@ -3,6 +3,8 @@ import os
 from flask import Flask, render_template, request
 from flask_cors import CORS
 from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
+from random import randint
+
 
 # ROOT_PATH for linking with all your files. 
 # Feel free to use a config.py or settings.py with a global export variable
@@ -47,12 +49,17 @@ def main():
     return render_template('main.html')
 
 def give_random_restaurant(restaurants):
-    return restaurants[0]
+    keys = ["business_id","name","address","city","state","postal_code","latitude","longitude","stars", "review_count", "is_open", "attributes" , "categories" , "hours" ]
+    # a random restaurant is selected from the list of restaurants
+    random_num = randint(0,len(restaurants)-1)
+    return [dict(zip(keys,[str(j) for j in i])) for i in restaurants][random_num]
 
 @app.route('/random')
 def random():
-    restaurants = mysql_engine.query_selector("SELECT * FROM restaurants")
+    restaurants = list(mysql_engine.query_selector("SELECT * FROM restaurant"))
     random_restaurant = give_random_restaurant(restaurants)
-    return render_template('random.html', restaurant=random_restaurant)
+    print(random_restaurant)
+    # random_restaurant_name = random_restaurant["name"]
+    return json.dumps({"restaurant": random_restaurant })
 
 # app.run(debug=True)

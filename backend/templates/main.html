@@ -52,8 +52,11 @@
 
         <!-- A BOX THAT SAYS THE NAME OF THE RESTAURANT START -->
         <!-- this box uses the function to give random restaurant -->
-        <div class="restaurant-name">
-            <h1>Random Restaurant: {{restaurant_name}}</h1>
+        <div class="input-box" onclick="sendFocus()">
+            <input placeholder=" " id="filter-text-val" onkeyup="filterText()">
+            <!-- a box that has the name of random restaurant -->
+            <div class="restaurant-name">
+                <p id="restaurant"> {{restaurantName}}</p>
         </div>
         <!-- A BOX THAT SAYS THE NAME OF THE RESTAURANT END -->
 
@@ -83,6 +86,19 @@
             document.getElementById('latitude').value = event.latlng.lat;
             document.getElementById('longitude').value = event.latlng.lng;
         })
+
+        
+        // this function can gives a random restaurant name and print it to a box
+        const restaurantName = "restaurant name";
+        function filterText(){
+            fetch("/random")
+            .then((response) => response.json())
+            .then((data) => {
+                const restaurantName = data.restaurant.name;
+                document.getElementById("restaurant").textContent = restaurantName;
+                });
+        }
+        
     </script>
 
 </body>
