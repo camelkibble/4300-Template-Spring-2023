@@ -23,7 +23,7 @@ MYSQL_DATABASE = "CityFood"
 mysql_engine = MySQLDatabaseHandler(MYSQL_USER,MYSQL_USER_PASSWORD,MYSQL_PORT,MYSQL_DATABASE)
 
 # Path to init.sql file. This file can be replaced with your own file for testing on localhost, but do NOT move the init.sql file
-# mysql_engine.load_file_into_db()
+mysql_engine.load_file_into_db()
 
 app = Flask(__name__)
 CORS(app)
@@ -73,4 +73,4 @@ def recommendations():
     print(name)
     return json.dumps({"restaurant": name})
 
-app.run(debug=True)
+# app.run(debug=True)
