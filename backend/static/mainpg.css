@@ -10,12 +10,10 @@
     justify-content: start;
     align-items: center;
     flex-direction: column;
-    /* background-color: #E8DED1; */
 }
 
 #title {
     color: #E8DED1
-    /* color: black; */
 }
 
 .website-title{
@@ -33,10 +31,14 @@
 }
 
 /* MULTISELECT DROPDOWN BOX - START */ 
+.restaurant-item {
+    display: none;
+  }
+
 .searchAndDisplayContainer{
     display: flex;
     justify-content: space-between;
-    /* border: solid; */
+    border: none;
 }
 
 .multiselect{
@@ -48,6 +50,8 @@
 .restaurantResults {
     width: 50%;
     float: left;
+    border: none;
+    outline:none;
 }
 
 label{
@@ -66,10 +70,6 @@ label{
 .vscomp-toggle-button{
     padding: 10px 30px 10px 10px;
     border-radius: 5px;
-}
-
-.restaurantResults{
-    border: solid;
 }
 /* MULTISELECT DROPDOWN BOX END */
 
