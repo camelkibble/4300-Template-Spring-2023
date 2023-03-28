@@ -21,10 +21,17 @@ MYSQL_DATABASE = "CityFood"
 mysql_engine = MySQLDatabaseHandler(MYSQL_USER,MYSQL_USER_PASSWORD,MYSQL_PORT,MYSQL_DATABASE)
 
 # Path to init.sql file. This file can be replaced with your own file for testing on localhost, but do NOT move the init.sql file
-mysql_engine.load_file_into_db()
+# mysql_engine.load_file_into_db()
 
 app = Flask(__name__)
 CORS(app)
+
+# get restaurants from database
+load_restaurants = list(mysql_engine.query_selector("SELECT * FROM restaurant"))
+keys = ["business_id","name","address","city","state","postal_code","latitude","longitude","stars", "review_count", "is_open", "attributes" , "categories" , "hours" ]
+restaurants = [dict(zip(keys,[str(j) for j in i])) for i in load_restaurants]
+print(restaurants[0])
+
 
 # Sample search, the LIKE operator in this case is hard-coded, 
 # but if you decide to use SQLAlchemy ORM framework, 
@@ -49,15 +56,13 @@ def main():
     return render_template('main.html')
 
 def give_random_restaurant(restaurants):
-    keys = ["business_id","name","address","city","state","postal_code","latitude","longitude","stars", "review_count", "is_open", "attributes" , "categories" , "hours" ]
-    # a random restaurant is selected from the list of restaurants
     random_num = randint(0,10)
-    return [dict(zip(keys,[str(j) for j in i])) for i in restaurants][random_num]
+    return restaurants[random_num]
     # return [dict(zip(keys,[str(j) for j in i])) for i in restaurants][0]
 
 @app.route('/random')
 def random():
-    restaurants = list(mysql_engine.query_selector("SELECT * FROM restaurant"))
+    # restaurants = list(mysql_engine.query_selector("SELECT * FROM restaurant"))
     random_restaurant = give_random_restaurant(restaurants)
     print(random_restaurant)
     # random_restaurant_name = random_restaurant["name"]
