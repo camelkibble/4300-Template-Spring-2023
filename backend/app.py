@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template, request
 from flask_cors import CORS
 from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
-# from random import randint
+from random import randint
 
 
 # ROOT_PATH for linking with all your files. 
@@ -51,9 +51,9 @@ def main():
 def give_random_restaurant(restaurants):
     keys = ["business_id","name","address","city","state","postal_code","latitude","longitude","stars", "review_count", "is_open", "attributes" , "categories" , "hours" ]
     # a random restaurant is selected from the list of restaurants
-    # random_num = randint(0,len(restaurants)-1)
-    # return [dict(zip(keys,[str(j) for j in i])) for i in restaurants][random_num]
-    return [dict(zip(keys,[str(j) for j in i])) for i in restaurants][0]
+    random_num = randint(0,len(restaurants)-1)
+    return [dict(zip(keys,[str(j) for j in i])) for i in restaurants][random_num]
+    # return [dict(zip(keys,[str(j) for j in i])) for i in restaurants][0]
 
 @app.route('/random')
 def random():
