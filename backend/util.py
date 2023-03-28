@@ -1,5 +1,28 @@
 # utility functions / Pranay
 
+# data description
+
+# restuarants is a list of dictionaries
+
+# keys of restuarants are:
+# restuarant = {
+#     "business_id": "string",
+#     "name": "string",
+#     "address": "string",
+#     "city": "string",
+#     "state": "string",
+#     "postal_code": "string",
+#     "latitude": "string",
+#     "longitude": "string",
+#     "stars": "string",
+#     "review_count": "string",
+#     "is_open": "string",
+#     "attributes": "string",
+#     "categories": "string",
+#     "hours": "string"
+# }
+
+
 def generate_recommendations(name, restaurants):
     # print(restaurants[0])
     selected_restaurant = None
