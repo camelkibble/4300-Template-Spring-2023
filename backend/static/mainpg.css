@@ -21,8 +21,10 @@
 .website-title{
     display: flex;
     align-items: center;
+    justify-content: center;
     font-size: 48px;
     font-family: 'Open Sans', sans-serif;
+    margin-bottom: 5vh;;
 }
 
 .website-title h1{
@@ -30,81 +32,52 @@
     margin-right: 3px;
 }
 
-/* MULTISELECT DROPDOWN BOX - START */
-.noselect {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+/* MULTISELECT DROPDOWN BOX - START */ 
+.searchAndDisplayContainer{
+    display: flex;
+    justify-content: space-between;
+    /* border: solid; */
 }
 
-.dropdown-container, .instructions {
-    width: 200px;
-    margin: 20px auto 0;
-    font-size: 14px;
-    font-family: sans-serif;
-    overflow: auto;
-}
-
-.instructions {
-    width: 100%;
-    text-align: center;
-}
-
-.dropdown-button {
+.multiselect{
+    margin: 30px 30px 30px 30px;
+    width: 50%;
     float: left;
-    width: 100%;
-    background: whitesmoke;
-    padding: 10px 12px;
-
-    cursor: pointer;
-    border: 1px solid lightgray;
-    box-sizing: border-box;
 }
-    .dropdown-label, .dropdown-quantity {
-        float: left;
-    }
-    
-    .dropdown-quantity {
-        margin-left: 4px;
-    }
-    
-    .fa-filter {
-        float: right;
-    }
 
-
-.dropdown-list {
+.restaurantResults {
+    width: 50%;
     float: left;
-    width: 100%;
-
-    border: 1px solid lightgray;
-    border-top: none;
-    box-sizing: border-box;
-    padding: 10px 12px;
 }
-    input[type="search"] {
-        padding: 5px 0;
-    }
-    
-    ul {
-        margin: 10px 0;
-        max-height: 200px;
-        overflow-y: auto;
-    }
-        input[type="checkbox"] {
-            position: relative;
-            top: 2px;
-        }
-    
 
+label{
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+#multipleSelect{
+    max-width: 100%;
+    width: 350px;
+}
+
+.vscomp-toggle-button{
+    padding: 10px 30px 10px 10px;
+    border-radius: 5px;
+}
+
+.restaurantResults{
+    border: solid;
+}
 /* MULTISELECT DROPDOWN BOX END */
 
+/* MAPS DROPDOWN BOX START */
 .wrap{
     width: 1200px;
-    margin:30px auto;
+    /* margin:30px auto; */
+    margin-top: 200px;
     display: grid;
     grid-gap: 50px;
     grid-template-columns: 300px auto;
@@ -140,3 +113,4 @@
     height: 500px;
     border-radius: 10px;
 }
+/* MAPS DROPDOWN BOX END */

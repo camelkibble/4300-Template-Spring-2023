@@ -1,13 +1,28 @@
 <!doctype html>
 <!-- <title>{% block title %}{% endblock %} - Flaskr</title> -->
 <link rel="stylesheet" href="{{ url_for('static', filename='mainpg.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='virtual-select.min.css') }}"> <!--added-->
+<script src="{{ url_for('static', filename='virtual-select.js') }}"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap">
 
 <body>
+
+
+
     <div class="full-body-container">
+
+        <!-- get user input -->
+
+        <div class="input-box" onclick="sendFocus()"> 
+            <input placeholder=" " id="filter-text-val" onkeyup="get_recommendation()">
+            <div class="restaurant-name">
+                <p id="restaurant"> {{restaurantName}}</p>
+        </div> 
+
+
         <div class="top-text">
 
             <div class="website-title">
@@ -15,21 +30,81 @@
             </div>
 
             <!-- MULTISELECT DROPDOWN BOX START -->
-            <div>
-                <label>Multiple Select</label>
-                <select id="multipleSelect" multiple name="native-select" placeholder="Native Select" data-search="false" data-silent-initial-value-set="true">
-                    <option value="1">Option 1</option>
-                    <option value="1">Option 2</option>
-                    <option value="1">Option 3</option>
-                </select>
+            <div class="searchAndDisplayContainer">
+                <div class="multiSelect" onclick="sendFocus()">
+                    <select id="multipleSelect" multiple name="native-select" placeholder="Choose your cuisines" 
+                        data-search="true" data-silent-initial-value-set="true" onkeyup="get_random()">
+                        <option value="1" >Italian</option>
+                        <option value="2">Korean</option>
+                        <option value="3" >French</option>
+                        
+                    </select>
+                    <div class="restaurant-name">
+                        <p id="restaurant"> {{restaurantName}}</p>
+                    </div>
+                </div>
+
+                <!-- Display Restaurant Results -->
+
+                <div class="restaurantResults" id="restaurantResults">{{ restaurantName }}</div>
+
+
             </div>
-            <script type="text'javascript" src="js/virtual.select.min.js"></script>
+           
             <script type="text/javascript">
                 VirtualSelect.init({
-                    ele: 'multipleSelect'
+                    ele: '#multipleSelect',
+                    multiple: true,
+                    placeholder: 'Select your cuisine'
                 })
             </script>
-            
+
+            <script>
+                function getSelectValues(select) {
+                    var result = [];
+                    var options = select && select.options;
+                    var opt;
+
+                    for (var i = 0, len = options.length; i < len; i++) {
+                        opt = options[i];
+
+                        if (opt.selected) {
+                            result.push(opt.value || opt.text);
+                        }
+                    }
+                    return result;
+                }
+
+                var restaurants = [
+                    { name: "Italian Restaurant 1", cuisine: "Italian" },    
+                    { name: "Italian Restaurant 2", cuisine: "Italian" },    
+                    { name: "Korean Restaurant 1", cuisine: "Korean" },    
+                    { name: "French Restaurant 1", cuisine: "French" },    
+                    { name: "French Restaurant 2", cuisine: "French" },    
+                    { name: "French Restaurant 3", cuisine: "French" }];
+
+                document.querySelector('#multipleSelect').addEventListener('change', filterRestaurants);
+
+                function filterRestaurants() {
+                    var selectedValues = getSelectValues(document.querySelector('#multipleSelect'));
+                    var results = document.getElementById("restaurantResults");
+                    // Clear the existing results
+                    if (results) {
+                        // Filter the restaurants
+                        var filteredRestaurants = restaurants.filter(function (restaurant) {
+                            return selectedValues.indexOf(restaurant.cuisine) !== -1;
+                            });
+                        // Display the filtered results
+                        filteredRestaurants.forEach(function (restaurant) {
+                            var resultTextNode = document.createTextNode(restaurant.name + " - " + restaurant.cuisine);
+                            var resultElement = document.createElement("div");
+                            resultElement.appendChild(resultTextNode);
+                            results.appendChild(resultElement);
+                        });
+                    }
+                    }
+
+            </script>
             <!-- MULTISELECT DROPDOWN BOX END -->
              
         </div>
@@ -48,17 +123,6 @@
 
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
         <!-- GOOGLE MAPS END -->
-
-
-        <!-- A BOX THAT SAYS THE NAME OF THE RESTAURANT START -->
-        <!-- this box uses the function to give random restaurant -->
-        <div class="input-box" onclick="sendFocus()">
-            <input placeholder=" " id="filter-text-val" onkeyup="filterText()">
-            <!-- a box that has the name of random restaurant -->
-            <div class="restaurant-name">
-                <p id="restaurant"> {{restaurantName}}</p>
-        </div>
-        <!-- A BOX THAT SAYS THE NAME OF THE RESTAURANT END -->
 
     </div>
 
@@ -86,19 +150,30 @@
             document.getElementById('latitude').value = event.latlng.lat;
             document.getElementById('longitude').value = event.latlng.lng;
         })
+    </script>
 
-        
-        // this function can gives a random restaurant name and print it to a box
-        const restaurantName = "restaurant name";
-        function filterText(){
-            fetch("/random")
-            .then((response) => response.json())
-            .then((data) => {
-                const restaurantName = data.restaurant.name;
-                document.getElementById("restaurant").textContent = restaurantName;
-                });
-        }
-        
+    
+    <script>
+    // get a random restaurant
+    const restaurantName = "restaurant name";
+    function get_random(){
+        fetch("/random")
+        .then((response) => response.json())
+        .then((data) => {
+            const restaurantName = data.restaurant.name;
+            document.getElementById("restaurant").textContent = restaurantName;
+            });
+    }
+
+    function get_recommendation(){
+        fetch("/recommendations")
+        .then((response) => response.json())
+        .then((data) => {
+            const restaurantName = data.restaurant.name;
+            document.getElementById("restaurant").textContent = restaurantName;
+            });
+    }
+
     </script>
 
 </body>
