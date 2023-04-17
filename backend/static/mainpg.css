@@ -22,13 +22,14 @@
     justify-content: center;
     font-size: 48px;
     font-family: 'Open Sans', sans-serif;
-    margin-bottom: 5vh;;
+    margin-bottom: 5vh;
 }
 
 .website-title h1{
     margin-bottom: 0;
     margin-right: 3px;
 }
+
 
 /* MULTISELECT DROPDOWN BOX - START */ 
 .restaurant-item {
@@ -38,7 +39,6 @@
 .searchAndDisplayContainer{
     display: flex;
     justify-content: space-between;
-    border: none;
 }
 
 .multiselect{
@@ -54,8 +54,8 @@
     outline:none;
 }
 
-label{
-    display: block;
+.label{
+    /* display: block; */
     font-size: 18px;
     font-weight: 700;
     color: #fff;
@@ -114,3 +114,5 @@ label{
     border-radius: 10px;
 }
 /* MAPS DROPDOWN BOX END */
+
+
