@@ -42,8 +42,14 @@
                 {name: 'Carbone', cuisine: 'Italian'},
                 {name: 'Babbo Ristorante e Enoteca', cuisine: 'Italian'},
                 {name: 'Osteria Mozza', cuisine: 'Italian'},
-                {name: 'MEXICAN', cuisine: 'Mexican'},
-                {name: 'CHINESE', cuisine: 'Chinese'}
+                {name: 'Chipotle', cuisine: 'Mexican'},
+                {name: 'Casa Molina Del Norte', cuisine: 'Mexican'},
+                {name: 'Happy Wok', cuisine: 'Chinese'},
+                {name: 'Slate Bleu Restaurant', cuisine: 'French'},
+                {name: 'Maru Global', cuisine: 'Japanese'},
+                {name: 'Gangnam Street Food', cuisine: 'Korean'},
+                {name: 'Generations Grill', cuisine: 'American'}
+
             ];
 
             const applyFiltersButton = document.getElementById('apply-filters');
@@ -111,7 +117,7 @@
                     list-style: none;
                     padding: 0;
                     margin: 0;
-                    border: 1px solid black;
+                    /* border: 1px solid black; */
                 }
             
                 li {
@@ -205,78 +211,5 @@
             document.getElementById('longitude').value = event.latlng.lng;
         })
     </script>
-
-    <!-- MULTISELECT DROPDOWN BOX START -->
-            <!-- <div class="searchAndDisplayContainer">
-                <div class="multiSelect">
-                    <select id="multipleSelect" multiple name="native-select" placeholder="Choose your cuisines" 
-                        data-search="true" data-silent-initial-value-set="true">
-                        <option value="Italian">Italian</option>
-                        <option value="Korean">Korean</option>
-                        <option value="French">French</option>
-                    </select>
-                    <button id="apply-filters2">Apply Filters2</button>
-                </div>
-            
-                <div id="restaurant-list2"></div>
-            </div>
-            
-            <script type="text/javascript">
-                VirtualSelect.init({
-                    ele: '#multipleSelect',
-                    multiple: true,
-                    placeholder: 'Select your cuisine'
-                })
-            </script>
-            
-            <script>
-            const restaurants2 = [
-                {name: 'Carbone', cuisine: 'Italian'},
-                {name: 'Babbo Ristorante e Enoteca', cuisine: 'Italian'},
-                {name: 'Osteria Mozza', cuisine: 'Italian'},
-                {name: 'MEXICAN', cuisine: 'Mexican'},
-                {name: 'INDIAN', cuisine: 'Indian'},
-                {name: 'CHINESE', cuisine: 'Chinese'}
-            ];
-            
-            const applyFiltersButton2 = document.getElementById('apply-filters2');
-            const restaurantList2 = document.getElementById('restaurant-list2');
-            
-            applyFiltersButton2.addEventListener('click', () => {
-                const cuisineCheckboxes2 = document.querySelectorAll('input[type="checkbox"]:checked');
-                const selectedCuisines2 = Array.from(cuisineCheckboxes2).map(cb => cb.value);
-            
-                const filteredRestaurants2 = restaurants2.filter(r => selectedCuisines2.includes(r.cuisine));
-            
-                let html = '';
-                filteredRestaurants2.forEach(r => {
-                    html += `<div>${r.name}</div>`;
-                });
-            
-                restaurantList2.innerHTML = html;
-            });
-            </script> -->
-            
-
-            <!-- <script>
-                $(document).ready(function() {
-                var restaurants = $(".restaurant-item");
-            
-                $(".multiSelect").on("change", function() {
-                    var selectedCuisine = $(this).val();
-            
-                    restaurants.each(function(index, restaurant) {
-                    var restaurantCuisine = $(restaurant).data("cuisine");
-                    if (selectedCuisine == "" || selectedCuisine == restaurantCuisine) {
-                        $(restaurant).show();
-                    } else {
-                        $(restaurant).hide();
-                    }
-                    });
-                });
-                });
-            </script> -->
-
-            <!-- MULTISELECT DROPDOWN BOX END -->
 
 </body>
