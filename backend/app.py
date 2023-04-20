@@ -70,7 +70,24 @@ def random():
 @app.route('/recommendations')
 def recommendations():
     name = util.generate_recommendations("McDonald's", restaurants)[1]
-    print(name)
+    # print(name)
     return json.dumps({"restaurant": name})
+
+
+@app.route('/main', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        first = request.form['first']
+        second = request.form['second']
+        third = request.form['third']
+        print(f"You entered {first}, {second}, and {third}.")
+        input_restaurants = [first, second, third]
+        print(restaurants[0])
+        output_restaurants = util.generate_recommendations(input_restaurants, restaurants)
+
+        output_restaurant_names = [restaurant['name'] for restaurant in output_restaurants]
+        return render_template('result.html', input=input_restaurants ,restaurant=output_restaurant_names)
+    else:
+        return render_template('main.html')
 
 app.run(debug=True)
