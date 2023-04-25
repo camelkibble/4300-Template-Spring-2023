@@ -20,7 +20,7 @@
             </div>
 
             <!-- FILTER START -->
-            <div class="filter-container">
+            <!-- <div class="filter-container">
                 Cuisine:
                 <div>
                     <label><input type="checkbox" name="cuisine" value="American">American</label>
@@ -68,13 +68,13 @@
 
                 restaurantList.innerHTML = html;
             });
-            </script>
+            </script> -->
             <!-- FILTER END -->
 
             <!-- USER INPUT RESTAURANT START -->
             <!-- USER INPUT RESTAURANT END -->
 
-            <p>BREAK</p>
+            <!-- <p>BREAK</p> -->
             <form>
                 <label for="fname">First Restaurant:</label><br>
                 <input type="text" id="first" name="first"><br>
@@ -83,7 +83,10 @@
                 <input type="text" id="second" name="second"><br>
 
                 <label for="lname">Third Restaurant:</label><br>
-                <input type="text" id="third" name="third">
+                <input type="text" id="third" name="third"><br>
+
+                <label for="lname">Target City:</label><br>
+                <input type="text" id="city" name="city">
                 <p></p>
                 <input type="submit">
             </form>
@@ -106,6 +109,12 @@
             <form autocomplete="off">
                 <input type="text" name="q" id="q3" onKeyUp="showResults(this.value, this, 'result3')" />
                 <div id="result3"></div>
+            </form>
+
+            Target City:
+            <form autocomplete="off">
+                <input type="text" name="q" id="q4" onKeyUp="showResults(this.value, this, 'result4')" />
+                <div id="result4"></div>
             </form>
 
             <p></p>
