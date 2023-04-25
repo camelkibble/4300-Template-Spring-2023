@@ -15,7 +15,7 @@ os.environ['ROOT_PATH'] = os.path.abspath(os.path.join("..",os.curdir))
 # Don't worry about the deployment credentials, those are fixed
 # You can use a different DB name if you want to
 MYSQL_USER = "root"
-MYSQL_USER_PASSWORD = "192837465"
+MYSQL_USER_PASSWORD = "peachybums"
 MYSQL_PORT = 3306
 MYSQL_DATABASE = "CityFood"
 
@@ -48,14 +48,16 @@ def sql_search(episode):
 def home():
     return render_template('base.html',title="sample html")
 
-@app.route("/episodes")
-def episodes_search():
-    text = request.args.get("title")
-    return sql_search(text)
+# @app.route("/episodes")
+# def episodes_search():
+#     text = request.args.get("title")
+#     return sql_search(text)
 
 @app.route('/main')
 def main():
-    return render_template('main.html')
+    # return render_template('main.html')
+    recommended_restaurants = ["McDonald's", 'Cafe Baladi', 'Chick-fil-A']
+    return render_template('main.html', recommended_restaurants=recommended_restaurants)
 
 def give_random_restaurant(restaurants):
     random_num = randint(0,len(restaurants)-1)
@@ -80,12 +82,15 @@ def index():
         first = request.form['first']
         second = request.form['second']
         third = request.form['third']
-        city = request.form['city']
+        zipcode = request.form['zipcode']
+        state = request.form['state']
         print(f"You entered {first}, {second}, and {third}.")
-        input_restaurants = [first, second, third,city]
+        print(f"Your destination zipcode: {zipcode}")
+        print(f"Your destination state: {state}")
+        input_restaurants = [first, second, third]
         print(restaurants[0])
-        output_restaurants = util.generate_recommendations(input_restaurants, restaurants)
 
+        output_restaurants = util.generate_recommendations(input_restaurants, restaurants)
         output_restaurant_names = [restaurant for restaurant in output_restaurants]
 
         return render_template('result.html', input=input_restaurants ,restaurant=output_restaurant_names)

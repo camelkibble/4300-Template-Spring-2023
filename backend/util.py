@@ -30,12 +30,29 @@
 # 
 # the input restuarants are a list of dictionaries, the definition inside is commented out above
 
+# def generate_recommendations(restaurant_names, restaurants):
+
+#     # PLEASE WRITE YOUR CODE HERE
+
+#     # the dummy version always tells you ["McDonald's", 'Cafe Baladi', 'Chick-fil-A']
+#     return restaurants[0:3]
+
+
+#JOANNAS GENERATE_RECOMMENDATIONS
 def generate_recommendations(restaurant_names, restaurants):
 
     # PLEASE WRITE YOUR CODE HERE
-
-    # the dummy version always tells you ["McDonald's", 'Cafe Baladi', 'Chick-fil-A']
-    return restaurants[0:3]
+    recommended_restaurants = []
+    for restaurant_name in restaurant_names:
+        for restaurant in restaurants:
+            if restaurant_name.lower() in restaurant["name"].lower():
+                recommended_restaurants.append({
+                    "name": restaurant["name"],
+                    "latitude": float(restaurant["latitude"]),
+                    "longitude": float(restaurant["longitude"])
+                })
+                break
+    return recommended_restaurants
 
 
 

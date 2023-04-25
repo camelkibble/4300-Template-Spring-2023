@@ -19,79 +19,61 @@
                 <h1 id = "title">CityFood</h1>
             </div>
 
-            <!-- FILTER START -->
-            <!-- <div class="filter-container">
-                Cuisine:
-                <div>
-                    <label><input type="checkbox" name="cuisine" value="American">American</label>
-                    <label><input type="checkbox" name="cuisine" value="Chinese">Chinese</label>
-                    <label><input type="checkbox" name="cuisine" value="French">French</label>
-                    <label><input type="checkbox" name="cuisine" value="Italian">Italian</label>
-                    <label><input type="checkbox" name="cuisine" value="Japanese">Japanese</label>
-                    <label><input type="checkbox" name="cuisine" value="Korean">Korean</label>
-                    <label><input type="checkbox" name="cuisine" value="Mexican">Mexican</label>
-                </div>
-
-                <button id="apply-filters">Apply Filters</button>
+            <div class="directions">
+                <h3>Traveling to a new place and want restaurant recommendations?</h3>
+                <p>Give us your three favorite restaurants, destination state and zip code, and we'll give you recommendations based on that!</p>
             </div>
 
-            <div id="restaurant-list"></div>
-
-            <script>
-            const restaurants = [
-                {name: 'Carbone', cuisine: 'Italian'},
-                {name: 'Babbo Ristorante e Enoteca', cuisine: 'Italian'},
-                {name: 'Osteria Mozza', cuisine: 'Italian'},
-                {name: 'Chipotle', cuisine: 'Mexican'},
-                {name: 'Casa Molina Del Norte', cuisine: 'Mexican'},
-                {name: 'Happy Wok', cuisine: 'Chinese'},
-                {name: 'Slate Bleu Restaurant', cuisine: 'French'},
-                {name: 'Maru Global', cuisine: 'Japanese'},
-                {name: 'Gangnam Street Food', cuisine: 'Korean'},
-                {name: 'Generations Grill', cuisine: 'American'}
-            ];
-
-            const applyFiltersButton = document.getElementById('apply-filters');
-            const restaurantList = document.getElementById('restaurant-list');
-    
-
-            applyFiltersButton.addEventListener('click', () => {
-                const cuisineCheckboxes = document.querySelectorAll('input[name="cuisine"]:checked');
-                const selectedCuisines = Array.from(cuisineCheckboxes).map(cb => cb.value);
-
-                const filteredRestaurants = restaurants.filter(r => selectedCuisines.includes(r.cuisine));
-
-                let html = '';
-                filteredRestaurants.forEach(r => {
-                    html += `<div>${r.name}</div>`;
-                });
-
-                restaurantList.innerHTML = html;
-            });
-            </script> -->
-            <!-- FILTER END -->
-
-            <!-- USER INPUT RESTAURANT START -->
-            <!-- USER INPUT RESTAURANT END -->
-
-            <!-- <p>BREAK</p> -->
             <form method="post">
-                <label for="fname">First Restaurant:</label><br>
-                <input type="text" id="first" name="first"><br>
+                <label for="lname">First Restaurant:</label><br>
+                <input type="text" id="first" name="first" required><br>
 
                 <label for="lname">Second Restaurant:</label><br>
-                <input type="text" id="second" name="second"><br>
+                <input type="text" id="second" name="second" required><br>
 
                 <label for="lname">Third Restaurant:</label><br>
-                <input type="text" id="third" name="third"><br>
+                <input type="text" id="third" name="third" required><br>
 
-                <label for="lname">Target City:</label><br>
-                <input type="text" id="city" name="city">
+                <!-- <label for="lname">Target City:</label><br>
+                <input type="text" id="city" name="city"><br> -->
+                <label for="lname">Target Zip Code:</label><br>
+                <input type="text" id="zipcode" name="zipcode" pattern="[0-9]{5}" title="Five digit zip code" required><br>
+  
+                <label for="state">Target State:</label>
+                    <div id="state-dropdown">
+                        <select name="state" id="state">
+                            <option value="">Select a state</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="CA">California</option>
+                            <option value="FL">Florida</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IN">Indiana</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="MO">Montana</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NV">Nevada</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="TN">Tennessee</option>
+                        </select>
+                    </div>
+
+                <script>
+                    function showStates() {
+                    var dropdown = document.getElementById("state-dropdown");
+                    if (dropdown.style.display === "none") {
+                        dropdown.style.display = "block";
+                    } else {
+                        dropdown.style.display = "none";
+                    }
+                    }
+                </script>
+
+
                 <p></p>
                 <input type="submit"></button>
             </form>
 
-            <p>BREAK - AUTOCOMPLETE VERSION</p>
+            <!-- <p>BREAK - AUTOCOMPLETE VERSION</p>
 
             First Restaurant:
             <form autocomplete="off">
@@ -115,12 +97,12 @@
             <form autocomplete="off">
                 <input type="text" name="q" id="q4" onKeyUp="showResults(this.value, this, 'result4')" />
                 <div id="result4"></div>
-            </form>
+            </form> -->
 
-            <p></p>
-                <input type="submit">
+            <!-- <p></p>
+                <input type="submit"> -->
 
-            <style>
+            <!-- <style>
                 ul {
                     list-style: none;
                     padding: 0;
@@ -136,10 +118,10 @@
                 li:hover {
                     background-color: #f2f2f2;
                 }
-            </style>
+            </style> -->
 
-            <script>
-                var search_terms = ['apple', 'banana', 'chocolate', 'croissant', 'honey', 'ice cream'];
+            <!-- <script>
+                var search_terms = ['AZ', 'CA', 'FL', 'ID', 'IN', 'LA', 'MO', 'NJ', 'NV', 'PA', 'TN'];
 
                 function autocompleteMatch(input) {
                     if (input == '') {
@@ -172,20 +154,26 @@
                         });
                     }
                 }
+            </script> -->
+
+
+            <div id="map" style="height: 400px; width: 100%;"></div>
+            <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+            <script>
+                var map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 12,
+                    center: {lat: ${recommended_restaurants[0].latitude}, lng: ${recommended_restaurants[0].longitude}}
+                });
+
+                ${recommended_restaurants.map(restaurant => `
+                    new google.maps.Marker({
+                        position: {lat: ${restaurant.latitude}, lng: ${restaurant.longitude}},
+                        map: map,
+                        title: "${restaurant.name}"
+                    });
+                `).join('')}
             </script>
-
-            <form>
-                <label for="zip">Enter your Zip Code:</label>
-                <input type="text" id="zip" name="zip" pattern="[0-9]{5}" title="Five digit zip code" required>
-                <button type="submit">Submit</button>
-            </form>
-
-            <form>
-                <label for="city">Enter your City:</label>
-                <input type="text" id="city" name="city" pattern="[A-Za-z ]{2,50}" title="City name should be between 2 and 50 characters long and only contain letters and spaces" required>
-                <button type="submit">Submit</button>
-            </form>
-
+            
              
         </div>
 
@@ -204,32 +192,36 @@
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
         <!-- GOOGLE MAPS END -->
 
+        <script>
+            let mapOptions = {
+                center:[42.444248, -76.482489],
+                zoom: 17
+            }
+    
+            let map = new L.map('map' , mapOptions);
+    
+            let layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+            map.addLayer(layer);
+    
+    
+            let marker = null;
+            map.on('click', (event)=> {
+    
+                if(marker !== null){
+                    map.removeLayer(marker);
+                }
+    
+                marker = L.marker([event.latlng.lat , event.latlng.lng]).addTo(map);
+    
+                document.getElementById('latitude').value = event.latlng.lat;
+                document.getElementById('longitude').value = event.latlng.lng;
+            })
+
+            
+        </script>
+
     </div>
 
-    <script>
-        let mapOptions = {
-            center:[42.444248, -76.482489],
-            zoom: 17
-        }
-
-        let map = new L.map('map' , mapOptions);
-
-        let layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-        map.addLayer(layer);
-
-
-        let marker = null;
-        map.on('click', (event)=> {
-
-            if(marker !== null){
-                map.removeLayer(marker);
-            }
-
-            marker = L.marker([event.latlng.lat , event.latlng.lng]).addTo(map);
-
-            document.getElementById('latitude').value = event.latlng.lat;
-            document.getElementById('longitude').value = event.latlng.lng;
-        })
-    </script>
+    
 
 </body>
