@@ -20,7 +20,7 @@
             </div>
 
             <!-- FILTER START -->
-            <!-- <div class="filter-container">
+            <div class="filter-container">
                 Cuisine:
                 <div>
                     <label><input type="checkbox" name="cuisine" value="American">American</label>
@@ -42,13 +42,8 @@
                 {name: 'Carbone', cuisine: 'Italian'},
                 {name: 'Babbo Ristorante e Enoteca', cuisine: 'Italian'},
                 {name: 'Osteria Mozza', cuisine: 'Italian'},
-                {name: 'Chipotle', cuisine: 'Mexican'},
-                {name: 'Casa Molina Del Norte', cuisine: 'Mexican'},
-                {name: 'Happy Wok', cuisine: 'Chinese'},
-                {name: 'Slate Bleu Restaurant', cuisine: 'French'},
-                {name: 'Maru Global', cuisine: 'Japanese'},
-                {name: 'Gangnam Street Food', cuisine: 'Korean'},
-                {name: 'Generations Grill', cuisine: 'American'}
+                {name: 'MEXICAN', cuisine: 'Mexican'},
+                {name: 'CHINESE', cuisine: 'Chinese'}
             ];
 
             const applyFiltersButton = document.getElementById('apply-filters');
@@ -68,13 +63,13 @@
 
                 restaurantList.innerHTML = html;
             });
-            </script> -->
+            </script>
             <!-- FILTER END -->
 
             <!-- USER INPUT RESTAURANT START -->
             <!-- USER INPUT RESTAURANT END -->
 
-            <!-- <p>BREAK</p> -->
+            <p>BREAK</p>
             <form method="post">
                 <label for="fname">First Restaurant:</label><br>
                 <input type="text" id="first" name="first"><br>
@@ -83,12 +78,9 @@
                 <input type="text" id="second" name="second"><br>
 
                 <label for="lname">Third Restaurant:</label><br>
-                <input type="text" id="third" name="third"><br>
-
-                <label for="lname">Target City:</label><br>
-                <input type="text" id="city" name="city">
+                <input type="text" id="third" name="third">
                 <p></p>
-                <input type="submit"></button>
+                <button type="submit">Submit</button>
             </form>
 
             <p>BREAK - AUTOCOMPLETE VERSION</p>
@@ -111,12 +103,6 @@
                 <div id="result3"></div>
             </form>
 
-            Target City:
-            <form autocomplete="off">
-                <input type="text" name="q" id="q4" onKeyUp="showResults(this.value, this, 'result4')" />
-                <div id="result4"></div>
-            </form>
-
             <p></p>
                 <input type="submit">
 
@@ -125,7 +111,7 @@
                     list-style: none;
                     padding: 0;
                     margin: 0;
-                    /* border: 1px solid black; */
+                    border: 1px solid black;
                 }
             
                 li {
@@ -174,18 +160,6 @@
                 }
             </script>
 
-            <form>
-                <label for="zip">Enter your Zip Code:</label>
-                <input type="text" id="zip" name="zip" pattern="[0-9]{5}" title="Five digit zip code" required>
-                <button type="submit">Submit</button>
-            </form>
-
-            <form>
-                <label for="city">Enter your City:</label>
-                <input type="text" id="city" name="city" pattern="[A-Za-z ]{2,50}" title="City name should be between 2 and 50 characters long and only contain letters and spaces" required>
-                <button type="submit">Submit</button>
-            </form>
-
              
         </div>
 
@@ -231,5 +205,78 @@
             document.getElementById('longitude').value = event.latlng.lng;
         })
     </script>
+
+    <!-- MULTISELECT DROPDOWN BOX START -->
+            <!-- <div class="searchAndDisplayContainer">
+                <div class="multiSelect">
+                    <select id="multipleSelect" multiple name="native-select" placeholder="Choose your cuisines" 
+                        data-search="true" data-silent-initial-value-set="true">
+                        <option value="Italian">Italian</option>
+                        <option value="Korean">Korean</option>
+                        <option value="French">French</option>
+                    </select>
+                    <button id="apply-filters2">Apply Filters2</button>
+                </div>
+            
+                <div id="restaurant-list2"></div>
+            </div>
+            
+            <script type="text/javascript">
+                VirtualSelect.init({
+                    ele: '#multipleSelect',
+                    multiple: true,
+                    placeholder: 'Select your cuisine'
+                })
+            </script>
+            
+            <script>
+            const restaurants2 = [
+                {name: 'Carbone', cuisine: 'Italian'},
+                {name: 'Babbo Ristorante e Enoteca', cuisine: 'Italian'},
+                {name: 'Osteria Mozza', cuisine: 'Italian'},
+                {name: 'MEXICAN', cuisine: 'Mexican'},
+                {name: 'INDIAN', cuisine: 'Indian'},
+                {name: 'CHINESE', cuisine: 'Chinese'}
+            ];
+            
+            const applyFiltersButton2 = document.getElementById('apply-filters2');
+            const restaurantList2 = document.getElementById('restaurant-list2');
+            
+            applyFiltersButton2.addEventListener('click', () => {
+                const cuisineCheckboxes2 = document.querySelectorAll('input[type="checkbox"]:checked');
+                const selectedCuisines2 = Array.from(cuisineCheckboxes2).map(cb => cb.value);
+            
+                const filteredRestaurants2 = restaurants2.filter(r => selectedCuisines2.includes(r.cuisine));
+            
+                let html = '';
+                filteredRestaurants2.forEach(r => {
+                    html += `<div>${r.name}</div>`;
+                });
+            
+                restaurantList2.innerHTML = html;
+            });
+            </script> -->
+            
+
+            <!-- <script>
+                $(document).ready(function() {
+                var restaurants = $(".restaurant-item");
+            
+                $(".multiSelect").on("change", function() {
+                    var selectedCuisine = $(this).val();
+            
+                    restaurants.each(function(index, restaurant) {
+                    var restaurantCuisine = $(restaurant).data("cuisine");
+                    if (selectedCuisine == "" || selectedCuisine == restaurantCuisine) {
+                        $(restaurant).show();
+                    } else {
+                        $(restaurant).hide();
+                    }
+                    });
+                });
+                });
+            </script> -->
+
+            <!-- MULTISELECT DROPDOWN BOX END -->
 
 </body>

@@ -80,12 +80,14 @@ def index():
         first = request.form['first']
         second = request.form['second']
         third = request.form['third']
+        city = request.form['city']
         print(f"You entered {first}, {second}, and {third}.")
-        input_restaurants = [first, second, third]
+        input_restaurants = [first, second, third,city]
         print(restaurants[0])
         output_restaurants = util.generate_recommendations(input_restaurants, restaurants)
 
-        output_restaurant_names = [restaurant['name'] for restaurant in output_restaurants]
+        output_restaurant_names = [restaurant for restaurant in output_restaurants]
+
         return render_template('result.html', input=input_restaurants ,restaurant=output_restaurant_names)
     else:
         return render_template('main.html')
