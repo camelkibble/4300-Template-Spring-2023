@@ -97,4 +97,4 @@ def index():
     else:
         return render_template('main.html')
 
-app.run(debug=True)
+# app.run(debug=True)
