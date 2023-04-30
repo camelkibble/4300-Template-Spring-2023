@@ -10,40 +10,11 @@
     </head>
     <body>
         <div id="map" style="height: 400px;"></div>
-        <script>
-            var map = L.map('map').setView([37.7749, -122.4194], 12);
-        
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-                maxZoom: 18,
-            }).addTo(map);
 
-            // let temp = '{{ output_info }}'; 
-            // let oldData = '{{ output_info }}';
-            // let temp = eval(oldData);
-            let temp = {{ output_info | tojson }}; 
-            console.log(temp);
-            // JSON.parse(temp.replaceAll("'", '"').replace("'s", '"s"'));
-
-            console.log(temp);
-
-            // console.log(typeof temp)
-
-            for (var i = 0; i < temp.length; i++) {
-                var restaurant = temp[i];
-                console.log(restaurant);
-                var marker = L.marker([restaurant['latitude'], restaurant['longitude']]).addTo(map);
-                marker.bindPopup("<b>" + restaurant['name'] + "</b><br>" + restaurant['address'] + "<br>" + restaurant['city'] + ", " + restaurant['state'] + " " + restaurant['postal_code']).openPopup();
-
-                if (i === 0) {
-                    map.flyTo([restaurant['latitude'], restaurant['longitude']], 16);
-                }
-            }
-        </script>
-                        
         <h1>You have input the restaurant names {{ input }}</h1>
-        <h1>The output restaurant is {{ restaurant }}</h1>
+        <h1>The output restaurant is {{ restaurant[0]['name'], restaurant[1]['name'], restaurant[2]['name'] }}</h1>
 
 
     </body>
+    
 </html>

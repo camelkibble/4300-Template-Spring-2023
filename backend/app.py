@@ -97,12 +97,12 @@ def index():
         first = request.form['first']
         second = request.form['second']
         third = request.form['third']
-        zipcode = request.form['zipcode']
-        state = request.form['state']
+        # zipcode = request.form['zipcode']
+        # state = request.form['state']s
         city = request.form['city']
         print(f"You entered {first}, {second}, and {third}.")
-        print(f"Your destination zipcode: {zipcode}")
-        print(f"Your destination state: {state}")
+        # print(f"Your destination zipcode: {zipcode}")
+        # print(f"Your destination state: {state}")
         input_restaurants = [first, second, third]
         # print(restaurants[0])
 
@@ -110,20 +110,13 @@ def index():
         # for restaurant in output_restaurants:
         #     print(restaurant[0])
 
-        output_restaurants_names = [restaurant[0] for restaurant in output_restaurants]
-        print(output_restaurants_names)
+        output_restaurants = [restaurant[0] for restaurant in output_restaurants]
+        print(type(output_restaurants))
 
-
-        output_restaurants = []
-        for restaurant in output_restaurants_names:
-            for r in restaurants:
-                if r['name'] == restaurant:
-                    output_restaurants.append(r)
-        print(output_restaurants[0]['name'])
-
+        # print(output_restaurants[0])
         # output_restaurant_info = [{'name': restaurant['name'],'latitude': restaurant['latitude'], 'longitude': restaurant['longitude']} for restaurant in output_restaurants]
-        output_restaurant_info = [{'name': restaurant['name'],'latitude': restaurant['latitude'], 'longitude': restaurant['longitude'], 'address': restaurant['address'], 'city': restaurant['city'], 'state': restaurant['state'],'postalcode': restaurant['postal_code']} for restaurant in output_restaurants]
-        return render_template('result.html', input=input_restaurants ,restaurant=output_restaurants_names, restaurant_info=output_restaurant_info)
+        # output_restaurant_info = [{'name': restaurant['name'],'latitude': restaurant['latitude'], 'longitude': restaurant['longitude'], 'address': restaurant['address'], 'city': restaurant['city'], 'state': restaurant['state'],'postalcode': restaurant['postal_code']} for restaurant in output_restaurants]
+        return render_template('result.html', input=input_restaurants ,restaurant=output_restaurants)
     else:
         return render_template('main.html')
 

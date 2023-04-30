@@ -50,7 +50,7 @@ def generate_recommendations(input_restaurant, city, restaurants):
         score_2 = get_similarity_score(restaurant2, r)
         score_3 = get_similarity_score(restaurant3, r)
         avg_score = (score_1+score_2+score_3)/3
-        list_of_restaurants.append((r['name'],avg_score))
+        list_of_restaurants.append((r,avg_score))
     sorted_list = sorted(list_of_restaurants, key=lambda x: x[1], reverse=True)
     return sorted_list[0:3]
 
