@@ -23,6 +23,8 @@
 # }
 
 
+from cosinesim import most_similar_reviews
+
 # this function takes in a list of restaurant names and the complete set of restaurants 
 # and returns a list of recommended restaurants
 # 
@@ -35,6 +37,20 @@ def generate_recommendations(restaurant_names, restaurants):
     # PLEASE WRITE YOUR CODE HERE
 
     # the dummy version always tells you ["McDonald's", 'Cafe Baladi', 'Chick-fil-A']
+    print(len(restaurants))
+    print(len(restaurant_names))
+    for i in range (2):
+        print(restaurant_names[i])
+        print(restaurants[i]['name'])
+
+    # find the restaurant business with the name as restaurant_names[0]
+    for restaurant in restaurants:
+        if restaurant["name"] == restaurant_names[0]:
+            print("this is a debug",restaurant)
+            break
+
+    # most_similar_reviews(restaurant['business_id'], '/Users/erlich_jaso/Desktop/CityFood/4300-Template-Spring-2023/data/reviews.csv')
+    
     return restaurants[0:3]
 
 
