@@ -5,6 +5,7 @@ from flask_cors import CORS
 from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
 from random import randint
 import util
+
 import ast
 
 
@@ -24,7 +25,7 @@ MYSQL_DATABASE = "CityFood"
 mysql_engine = MySQLDatabaseHandler(MYSQL_USER,MYSQL_USER_PASSWORD,MYSQL_PORT,MYSQL_DATABASE)
 
 # Path to init.sql file. This file can be replaced with your own file for testing on localhost, but do NOT move the init.sql file
-mysql_engine.load_file_into_db()
+# mysql_engine.load_file_into_db()
 
 app = Flask(__name__)
 CORS(app)
@@ -46,7 +47,7 @@ for r in restaurants:
     else:
         r['categories'] = y.split(", ")
 
-print(restaurants[0]['categories'][0])
+# print(restaurants[0]['categories'][0])
 
 
 # Sample search, the LIKE operator in this case is hard-coded, 
@@ -106,11 +107,23 @@ def index():
         # print(restaurants[0])
 
         output_restaurants = util.generate_recommendations(input_restaurants, city, restaurants)
-        output_restaurant_names = [restaurant for restaurant in output_restaurants]
-        output_restaurant_info = [{'name': restaurant['name'],'latitude': restaurant['latitude'], 'longitude': restaurant['longitude']} for restaurant in output_restaurants]
+        # for restaurant in output_restaurants:
+        #     print(restaurant[0])
+
+        output_restaurants_names = [restaurant[0] for restaurant in output_restaurants]
+        print(output_restaurants_names)
 
 
-        return render_template('result.html', input=input_restaurants ,restaurant=output_restaurant_names, output_info = output_restaurant_names)
+        output_restaurants = []
+        for restaurant in output_restaurants_names:
+            for r in restaurants:
+                if r['name'] == restaurant:
+                    output_restaurants.append(r)
+        print(output_restaurants[0]['name'])
+
+        # output_restaurant_info = [{'name': restaurant['name'],'latitude': restaurant['latitude'], 'longitude': restaurant['longitude']} for restaurant in output_restaurants]
+        output_restaurant_info = [{'name': restaurant['name'],'latitude': restaurant['latitude'], 'longitude': restaurant['longitude'], 'address': restaurant['address'], 'city': restaurant['city'], 'state': restaurant['state'],'postalcode': restaurant['postal_code']} for restaurant in output_restaurants]
+        return render_template('result.html', input=input_restaurants ,restaurant=output_restaurants_names, restaurant_info=output_restaurant_info)
     else:
         return render_template('main.html')
 

@@ -25,6 +25,7 @@
 
 from cosinesim import most_similar_reviews
 
+
 # this function takes in a list of restaurant names and the complete set of restaurants 
 # and returns a list of recommended restaurants
 # 
@@ -32,26 +33,73 @@ from cosinesim import most_similar_reviews
 # 
 # the input restuarants are a list of dictionaries, the definition inside is commented out above
 
-def generate_recommendations(restaurant_names, restaurants):
+def generate_recommendations(input_restaurant, city, restaurants):
 
-    # PLEASE WRITE YOUR CODE HERE
+    r1 = input_restaurant[0]
+    r2 = input_restaurant[1]
+    r3 = input_restaurant[2]
 
-    # the dummy version always tells you ["McDonald's", 'Cafe Baladi', 'Chick-fil-A']
-    print(len(restaurants))
-    print(len(restaurant_names))
-    for i in range (2):
-        print(restaurant_names[i])
-        print(restaurants[i]['name'])
+    my_dict = {d["name"]: d for d in restaurants}
+    restaurant1 = my_dict[r1]
+    restaurant2 = my_dict[r2]
+    restaurant3 = my_dict[r3]
+    filtered_list = [c for c in restaurants if c["city"] == city]
+    list_of_restaurants = []
+    for r in filtered_list:
+        score_1 = get_similarity_score(restaurant1, r)
+        score_2 = get_similarity_score(restaurant2, r)
+        score_3 = get_similarity_score(restaurant3, r)
+        avg_score = (score_1+score_2+score_3)/3
+        list_of_restaurants.append((r['name'],avg_score))
+    sorted_list = sorted(list_of_restaurants, key=lambda x: x[1], reverse=True)
+    return sorted_list[0:3]
 
-    # find the restaurant business with the name as restaurant_names[0]
-    for restaurant in restaurants:
-        if restaurant["name"] == restaurant_names[0]:
-            print("this is a debug",restaurant)
-            break
 
-    # most_similar_reviews(restaurant['business_id'], '/Users/erlich_jaso/Desktop/CityFood/4300-Template-Spring-2023/data/reviews.csv')
+def get_similarity_score(r1, r2):
+    #takes in two restaurants and returns their similarity score
+    return get_price_similarity(r1,r2)+get_category_similarity(r1,r2) + float(r2['stars'])
+
+def get_price_similarity(r1,r2):
+    #takes in two restaurants and returns how similar their prices are based on the price range in the yelp dataset
+    if('attributes' not in r1 or 'attributes' not in r2):
+        return 2.5
+    # print(r1['attributes'])
+    # try:
+    #     if ('RestaurantsPriceRange2' in r1['attributes'] and 'RestaurantsPriceRange2' in r2['attributes']):
+    #         diff = int(r1['attributes']['RestaurantsPriceRange2']) - int(r2['attributes']['RestaurantsPriceRange2'])
+    #         diff = abs(diff)
+    #         return 5 - diff
+    else:
+        return 2.5
+def get_category_similarity(r1,r2):
+    #takes in two restaurants and returns the jaccard similarity of the set of their categories
+    r1_categories = set(r1['categories'])
+    r2_categories = set(r2['categories'])
+    intersection = r1_categories.intersection(r2_categories)
+    union = r2_categories.union(r1_categories)
+    sim = len(intersection)/len(union)
+    return sim
+
+# def generate_recommendations(restaurant_names, restaurants):
+
+#     # PLEASE WRITE YOUR CODE HERE
+
+#     # the dummy version always tells you ["McDonald's", 'Cafe Baladi', 'Chick-fil-A']
+#     print(len(restaurants))
+#     print(len(restaurant_names))
+#     for i in range (2):
+#         print(restaurant_names[i])
+#         print(restaurants[i]['name'])
+
+#     # find the restaurant business with the name as restaurant_names[0]
+#     for restaurant in restaurants:
+#         if restaurant["name"] == restaurant_names[0]:
+#             print("this is a debug",restaurant)
+#             break
+
+#     # most_similar_reviews(restaurant['business_id'], '/Users/erlich_jaso/Desktop/CityFood/4300-Template-Spring-2023/data/reviews.csv')
     
-    return restaurants[0:3]
+#     return restaurants[0:3]
 
 
 #JOANNAS GENERATE_RECOMMENDATIONS
