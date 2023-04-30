@@ -92,9 +92,15 @@ def index():
 
         output_restaurants = util.generate_recommendations(input_restaurants, restaurants)
         output_restaurant_names = [restaurant for restaurant in output_restaurants]
+        output_restaurant_info = [{'name': restaurant['name'],'latitude': restaurant['latitude'], 'longitude': restaurant['longitude']} for restaurant in output_restaurants]
 
-        return render_template('result.html', input=input_restaurants ,restaurant=output_restaurant_names)
+
+        return render_template('result.html', input=input_restaurants ,restaurant=output_restaurant_names, output_info = output_restaurant_names)
     else:
         return render_template('main.html')
+
+    
+
+
 
 app.run(debug=True)

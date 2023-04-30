@@ -1,10 +1,49 @@
 <!DOCTYPE html>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" integrity="sha512-hj//ktLzJ5oz5+5OwdY5XTt1+wmVnWjLyfZ7eHJ+SOvvl8VujQqLahyJY3YfTnT8x1T2JrTQQFnlQnXYv/uDg==" crossorigin=""/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js" integrity="sha512-AqxIGGpUUubzA0HtGfdwM8WxRiRkL/VCDfCzAUs9B2NLtwBpiKMA7q3edkKHXx8kPd3RuZ3q3tdiTEaa1XBg5g==" crossorigin=""></script> -->
+
 <html>
     <head>
         <title>Result</title>
     </head>
     <body>
+        <div id="map" style="height: 400px;"></div>
+        <script>
+            var map = L.map('map').setView([37.7749, -122.4194], 12);
+        
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+                maxZoom: 18,
+            }).addTo(map);
+
+            // let temp = '{{ output_info }}'; 
+            // let oldData = '{{ output_info }}';
+            // let temp = eval(oldData);
+            let temp = {{ output_info | tojson }}; 
+            console.log(temp);
+            // JSON.parse(temp.replaceAll("'", '"').replace("'s", '"s"'));
+
+            console.log(temp);
+
+            // console.log(typeof temp)
+
+            for (var i = 0; i < temp.length; i++) {
+                var restaurant = temp[i];
+                console.log(restaurant);
+                var marker = L.marker([restaurant['latitude'], restaurant['longitude']]).addTo(map);
+                marker.bindPopup("<b>" + restaurant['name'] + "</b><br>" + restaurant['address'] + "<br>" + restaurant['city'] + ", " + restaurant['state'] + " " + restaurant['postal_code']).openPopup();
+
+                if (i === 0) {
+                    map.flyTo([restaurant['latitude'], restaurant['longitude']], 16);
+                }
+            }
+        </script>
+                        
         <h1>You have input the restaurant names {{ input }}</h1>
         <h1>The output restaurant is {{ restaurant }}</h1>
+
+
     </body>
 </html>
