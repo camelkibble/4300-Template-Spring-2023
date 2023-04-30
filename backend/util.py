@@ -17,8 +17,8 @@
     #     "stars": "string",
     #     "review_count": "string",
     #     "is_open": "string",
-    #     "attributes": "string",
-    #     "categories": "string",
+    #     "attributes": dictionary,
+    #     "categories": list,
     #     "hours": "string"
 # }
 

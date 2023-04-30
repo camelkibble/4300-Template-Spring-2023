@@ -5,6 +5,7 @@ from flask_cors import CORS
 from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
 from random import randint
 import util
+import ast
 
 
 # ROOT_PATH for linking with all your files. 
@@ -32,7 +33,20 @@ CORS(app)
 load_restaurants = list(mysql_engine.query_selector("SELECT * FROM restaurant"))
 keys = ["business_id","name","address","city","state","postal_code","latitude","longitude","stars", "review_count", "is_open", "attributes" , "categories" , "hours" ]
 restaurants = [dict(zip(keys,[str(j) for j in i])) for i in load_restaurants]
-print(restaurants[0])
+for r in restaurants:
+    x = r['attributes']
+    if x=='':
+        r['attributes']={}
+    else:
+        attributes_dict = ast.literal_eval(x)
+        r['attributes'] = attributes_dict
+    y = r['categories']
+    if y == '':
+        r['categories'] = []
+    else:
+        r['categories'] = y.split(", ")
+
+print(restaurants[0]['categories'][0])
 
 
 # Sample search, the LIKE operator in this case is hard-coded, 
@@ -84,13 +98,14 @@ def index():
         third = request.form['third']
         zipcode = request.form['zipcode']
         state = request.form['state']
+        city = request.form['city']
         print(f"You entered {first}, {second}, and {third}.")
         print(f"Your destination zipcode: {zipcode}")
         print(f"Your destination state: {state}")
         input_restaurants = [first, second, third]
-        print(restaurants[0])
+        # print(restaurants[0])
 
-        output_restaurants = util.generate_recommendations(input_restaurants, restaurants)
+        output_restaurants = util.generate_recommendations(input_restaurants, city, restaurants)
         output_restaurant_names = [restaurant for restaurant in output_restaurants]
         output_restaurant_info = [{'name': restaurant['name'],'latitude': restaurant['latitude'], 'longitude': restaurant['longitude']} for restaurant in output_restaurants]
 
