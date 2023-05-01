@@ -106,6 +106,11 @@ def index():
         input_restaurants = [first, second, third]
         # print(restaurants[0])
 
+        # make sure that the input restaurants are in the database
+        for restaurant in input_restaurants:
+            if restaurant not in restaurants:
+                return render_template('error.html')
+
         output_restaurants = util.generate_recommendations(input_restaurants, city, restaurants)
         # for restaurant in output_restaurants:
         #     print(restaurant[0])
@@ -124,5 +129,5 @@ def index():
 
 
 
-app.run(debug=True)
+# app.run(debug=True)
 # 9738eb1b740d16702a566bfb829517f4b456d49c
