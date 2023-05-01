@@ -1,3 +1,4 @@
+import csv
 # utility functions / Pranay & James
 
 # data description:
@@ -50,7 +51,10 @@ def generate_recommendations(input_restaurant, city, restaurants):
         score_2 = get_similarity_score(restaurant2, r)
         score_3 = get_similarity_score(restaurant3, r)
         avg_score = (score_1+score_2+score_3)/3
-        list_of_restaurants.append((r,avg_score))
+        if r['name']==restaurant1 or r['name']==restaurant2 or r['name']==restaurant3:
+            pass
+        else:
+            list_of_restaurants.append((r,avg_score))
     sorted_list = sorted(list_of_restaurants, key=lambda x: x[1], reverse=True)
     return sorted_list[0:3]
 
@@ -61,14 +65,10 @@ def get_similarity_score(r1, r2):
 
 def get_price_similarity(r1,r2):
     #takes in two restaurants and returns how similar their prices are based on the price range in the yelp dataset
-    if('attributes' not in r1 or 'attributes' not in r2):
-        return 2.5
-    # print(r1['attributes'])
-    # try:
-    #     if ('RestaurantsPriceRange2' in r1['attributes'] and 'RestaurantsPriceRange2' in r2['attributes']):
-    #         diff = int(r1['attributes']['RestaurantsPriceRange2']) - int(r2['attributes']['RestaurantsPriceRange2'])
-    #         diff = abs(diff)
-    #         return 5 - diff
+    if ('RestaurantsPriceRange2' in r1['attributes'] and 'RestaurantsPriceRange2' in r2['attributes']):
+        diff = int(r1['attributes']['RestaurantsPriceRange2']) - int(r2['attributes']['RestaurantsPriceRange2'])
+        diff = abs(diff)
+        return 5 - diff
     else:
         return 2.5
 def get_category_similarity(r1,r2):

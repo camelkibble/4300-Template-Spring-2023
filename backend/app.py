@@ -47,7 +47,6 @@ for r in restaurants:
     else:
         r['categories'] = y.split(", ")
 
-# print(restaurants[0]['categories'][0])
 
 
 # Sample search, the LIKE operator in this case is hard-coded, 
@@ -149,5 +148,5 @@ def index():
 
 
 
-# app.run(debug=True)
+app.run(debug=True)
 # 9738eb1b740d16702a566bfb829517f4b456d49c
