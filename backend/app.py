@@ -106,21 +106,37 @@ def index():
         input_restaurants = [first, second, third]
         # print(restaurants[0])
 
-        # make sure that the input restaurants are in the database
-        
-        if first not in restaurants:
+        # make sure that the first restaurant is in the database            
+        if first not in [restaurant['name'] for restaurant in restaurants]:
             return render_template('error.html', input=first)
-        if second not in restaurants:
-            return render_template('error.html' ,input=second)
-        if third not in restaurants:
-            return render_template('error.html' ,input=third)
+        # make sure that the second restaurant is in the database
+        if second not in [restaurant['name'] for restaurant in restaurants]:
+            return render_template('error.html', input=second)
+        # make sure that the third restaurant is in the database
+        if third not in [restaurant['name'] for restaurant in restaurants]:
+            return render_template('error.html', input=third)
+        
+
 
         output_restaurants = util.generate_recommendations(input_restaurants, city, restaurants)
-        # for restaurant in output_restaurants:
-        #     print(restaurant[0])
+        print(len(output_restaurants))
+        for restaurant in output_restaurants:
+            print(restaurant[0])
 
         output_restaurants = [restaurant[0] for restaurant in output_restaurants]
         print(type(output_restaurants))
+
+        # if the output_restaurants' length is less than 3, then we need to add more restaurants
+        if len(output_restaurants) == 0:
+            output_restaurants.append(give_random_restaurant(restaurants))
+            output_restaurants.append(give_random_restaurant(restaurants))
+            output_restaurants.append(give_random_restaurant(restaurants))
+        if len(output_restaurants) == 1:
+            output_restaurants.append(give_random_restaurant(restaurants))
+            output_restaurants.append(give_random_restaurant(restaurants))
+        if len(output_restaurants) == 2:
+            output_restaurants.append(give_random_restaurant(restaurants))
+            
 
         # print(output_restaurants[0])
         # output_restaurant_info = [{'name': restaurant['name'],'latitude': restaurant['latitude'], 'longitude': restaurant['longitude']} for restaurant in output_restaurants]
