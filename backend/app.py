@@ -17,7 +17,7 @@ os.environ['ROOT_PATH'] = os.path.abspath(os.path.join("..",os.curdir))
 # Don't worry about the deployment credentials, those are fixed
 # You can use a different DB name if you want to
 MYSQL_USER = "root"
-MYSQL_USER_PASSWORD = "peachybums"
+MYSQL_USER_PASSWORD = "192837465"
 MYSQL_PORT = 3306
 MYSQL_DATABASE = "CityFood"
 
@@ -107,9 +107,13 @@ def index():
         # print(restaurants[0])
 
         # make sure that the input restaurants are in the database
-        for restaurant in input_restaurants:
-            if restaurant not in restaurants:
-                return render_template('error.html')
+        
+        if first not in restaurants:
+            return render_template('error.html', input=first)
+        if second not in restaurants:
+            return render_template('error.html' ,input=second)
+        if third not in restaurants:
+            return render_template('error.html' ,input=third)
 
         output_restaurants = util.generate_recommendations(input_restaurants, city, restaurants)
         # for restaurant in output_restaurants:
