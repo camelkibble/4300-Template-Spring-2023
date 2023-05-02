@@ -6,8 +6,8 @@ services:
                 - 0.0.0.0:${APP_PORT}:5000
         restart: always
         build:
-                context: ./backend
-                dockerfile: Dockerfile
+                context: .
+                dockerfile: backend/Dockerfile
                 args:
                         DB_NAME: TEAM_1
         depends_on:
