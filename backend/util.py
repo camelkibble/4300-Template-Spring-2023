@@ -1,4 +1,8 @@
 import csv
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import TruncatedSVD
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
 # utility functions / Pranay & James
 
 # data description:
@@ -33,7 +37,36 @@ from cosinesim import most_similar_reviews
 # note that the input restaurant names are not necessarily in the list of all restaurants, so check for that
 # 
 # the input restuarants are a list of dictionaries, the definition inside is commented out above
+business_id_to_reviews = {}
+with open('init.csv', newline='') as csvfile:
+    reader = csv.reader(csvfile)
+    next(reader)  # skip header row
+    for row in reader:
+        business_id, review = row
+        if business_id not in business_id_to_reviews:
+            business_id_to_reviews[business_id] = []
+        business_id_to_reviews[business_id].append(review)
 
+# Convert the reviews for each business into a single string
+business_id_to_text = {}
+for business_id, reviews in business_id_to_reviews.items():
+    business_id_to_text[business_id] = ' '.join(reviews)
+
+# Compute the TF-IDF matrix
+tfidf = TfidfVectorizer().fit_transform(business_id_to_text.values())
+
+# Get the words in the matrix
+feature_names = TfidfVectorizer().fit(business_id_to_text.values()).get_feature_names_out()
+
+svd = TruncatedSVD(n_components=10)
+svd.fit(tfidf)
+topic_term_matrix = svd.components_
+restaurant_topic_matrix = svd.transform(tfidf)
+
+print(restaurant_topic_matrix)
+
+# Get the words in the matrix
+feature_names = TfidfVectorizer().fit(business_id_to_text.values()).get_feature_names_out()
 def generate_recommendations(input_restaurant, city, restaurants):
 
     r1 = input_restaurant[0]
@@ -61,16 +94,28 @@ def generate_recommendations(input_restaurant, city, restaurants):
 
 def get_similarity_score(r1, r2):
     #takes in two restaurants and returns their similarity score
-    return get_price_similarity(r1,r2)+get_category_similarity(r1,r2) + float(r2['stars'])
+    return get_price_similarity(r1,r2)+get_category_similarity(r1,r2) + float(r2['stars']) 
+
+def cosine_similarity_reviews(r1, r2):
+    r1_row = list(business_id_to_text.keys()).index(r1['business_id'])
+    r2_row = list(business_id_to_text.keys()).index(r2['business_id'])
+    r1_vec = restaurant_topic_matrix[r1_row]
+    r2_vec = restaurant_topic_matrix[r2_row]
+    return cosine_similarity(r1_vec, r2_vec)
+
 
 def get_price_similarity(r1,r2):
     #takes in two restaurants and returns how similar their prices are based on the price range in the yelp dataset
-    if ('RestaurantsPriceRange2' in r1['attributes'] and 'RestaurantsPriceRange2' in r2['attributes']):
-        diff = int(r1['attributes']['RestaurantsPriceRange2']) - int(r2['attributes']['RestaurantsPriceRange2'])
-        diff = abs(diff)
-        return 5 - diff
-    else:
-        return 2.5
+    if r1['attributes'] is not None and r2['attributes'] is not None:
+        if ('RestaurantsPriceRange2' in r1['attributes'] and 'RestaurantsPriceRange2' in r2['attributes']):
+            if(r1['attributes']['RestaurantsPriceRange2'] is not None and r2['attributes']['RestaurantsPriceRange2'] is not None):
+                try:
+                    diff = int(r1['attributes']['RestaurantsPriceRange2']) - int(r2['attributes']['RestaurantsPriceRange2'])
+                    diff = abs(diff)
+                    return 5 - diff
+                except ValueError:
+                    return 2.5
+    return 2.5
 def get_category_similarity(r1,r2):
     #takes in two restaurants and returns the jaccard similarity of the set of their categories
     r1_categories = set(r1['categories'])
