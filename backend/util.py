@@ -80,6 +80,19 @@ def get_category_similarity(r1,r2):
     sim = len(intersection)/len(union)
     return sim
 
+def cosine_similarity_reviews(r1, r2):
+    r1_row = list(business_id_to_text.keys()).index(r1['business_id'])
+    r2_row = list(business_id_to_text.keys()).index(r2['business_id'])
+    r1_vec = restaurant_topic_matrix[r1_row]
+    r2_vec = restaurant_topic_matrix[r2_row]
+    return cosine_similarity(r1_vec, r2_vec)
+
+def SVD(tfidf):
+    svd = TruncatedSVD(n_components=10)
+    svd.fit(tfidf)
+    topic_term_matrix = svd.components_
+    restaurant_topic_matrix = svd.transform(tfidf)
+    return restaurant_topic_matrix
 # def generate_recommendations(restaurant_names, restaurants):
 
 #     # PLEASE WRITE YOUR CODE HERE
